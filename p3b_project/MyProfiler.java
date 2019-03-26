@@ -22,37 +22,70 @@ public class MyProfiler<K extends Comparable<K>, V> {
     HashTableADT<K, V> hashtable;
     TreeMap<K, V> treemap;
     
-    public MyProfiler() {
-        // Instantiate your HashTable and Java's TreeMap
-    	hashtable = new HashTable();
-    	treemap = new TreeMap();
+    /**
+     * Initialize both data structures. Hashtable capactity initiated to num_elements
+     * @param num_elements - number of elements to insert/retrieve from each data structure
+     */
+    public MyProfiler(int num_elements) {
+        treemap = new TreeMap<>();
+        hashtable = new HashTable<>(num_elements, .80);
     }
     
-    public void insert(K key, V value) throws IllegalNullKeyException, DuplicateKeyException {
-        // Insert K, V into both data structures
-    	hashtable.insert(key, value);
-    	treemap.put(key, value);
+    /**
+     * Insert the specified key value pair into both data structures. Print out error message if one
+     * is unable to do so
+     * @param key - key to insert 
+     * @param value - value to insert with specified key
+     */
+    public void insert(K key, V value) {
+      try {
+        treemap.put(key,value);
+      } catch (Exception e) {
+        System.out.print("treemap was unable to insert: ("+key+","+value+")");
+      }
+      try {
+        hashtable.insert(key, value);
+      } catch (Exception e) {
+        System.out.print("hashtable was unable to insert: ("+key+","+value+")");
+      }
     }
     
-    public void retrieve(K key) throws IllegalNullKeyException, KeyNotFoundException {
-        // get value V for key K from data structures
-    	hashtable.get(key);
-    	treemap.get(key);
+    /**
+     * Retrieve the specified value from both data structures. Print out error message if one is 
+     * unable to do so.
+     * @param key - key to retrieve from the data structure 
+     */
+    public void retrieve(K key) {
+      try {
+        treemap.get(key);
+      } catch (Exception e) {
+        System.out.print("treemap failed to retrieve "+ key);
+      }
+      
+      try {
+        hashtable.get(key);
+      } catch (Exception e) {
+        System.out.print("hashtable failed to retrieve "+ key);
+      }
     }
     
+    /**
+     * Main Method to run the Profiler class. This will test the efficiency of both java treemap
+     * and Tyler Steffensen's hash table implementation by running large amounts of inserts and 
+     * retrieves on both 
+     * @param args
+     */
     public static void main(String[] args) {
         try {
             int numElements = Integer.parseInt(args[0]);
-            // Create a profile object. 
-            MyProfiler<Integer, Integer> profile = new MyProfiler<Integer, Integer>();
-            // execute the insert method of profile as many times as numElements
-            for (int i=0; i<numElements; i++) {
-            	profile.insert(i, i);
-            }
-            // execute the retrieve method of profile as many times as numElements
-            for (int i=0; i<numElements; i++) {
-            	profile.retrieve(i);
-            }
+            MyProfiler<Integer, Integer> profile = new MyProfiler<>(numElements);
+            
+            for (int i=0; i<numElements; i++) 
+              profile.insert(i, i);
+            
+            for (int a=0; a<numElements; a++)
+              profile.retrieve(a);            
+        
             String msg = String.format("Inserted and retreived %d (key,value) pairs", numElements);
             System.out.println(msg);
         }
