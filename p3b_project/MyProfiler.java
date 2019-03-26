@@ -26,8 +26,8 @@ public class MyProfiler<K extends Comparable<K>, V> {
     public MyProfiler() {
         // TODO: complete the Profile constructor
         // Instantiate your HashTable and Java's TreeMap
-    	hashtable = new HashTable();
-    	treemap = new TreeMap();
+    	hashtable = new HashTable<>();
+    	treemap = new TreeMap<>();
     }	
     
     public void insert(K key, V value) throws IllegalNullKeyException, DuplicateKeyException {
@@ -41,7 +41,7 @@ public class MyProfiler<K extends Comparable<K>, V> {
         // TODO: complete the retrieve method
         // get value V for key K from data structures
     	hashtable.get(key);
-    	treemap.containsKey(key);
+    	treemap.get(key);
     		
     	
     }
