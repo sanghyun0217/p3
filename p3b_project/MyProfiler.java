@@ -26,9 +26,9 @@ public class MyProfiler<K extends Comparable<K>, V> {
      * Initialize both data structures. Hashtable capactity initiated to num_elements
      * @param num_elements - number of elements to insert/retrieve from each data structure
      */
-    public MyProfiler() {
+    public MyProfiler(int num_elements) {
         treemap = new TreeMap<>();
-        hashtable = new HashTable<>();
+        hashtable = new HashTable<>(num_elements, .80);
     }
     
     /**
